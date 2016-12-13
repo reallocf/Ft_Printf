@@ -1,0 +1,159 @@
+Mandatory
+
+• You have to recode the libc’s printf function.
+• Your function will be called ft_printf and will be prototyped similarly to printf.
+• You won’t do the buffer management in the printf function.
+• You have to manage the following conversions: sSpdDioOuUxXcC
+• You must manage %%
+• You must manage the flags #0-+ and space
+• You must manage the minimum field-width
+• You must manage the precision
+• You must manage the flags hh, h, l, ll, j, et z.
+
+Bonus
+
+• More detailed conversions management: eE, fF, gG, aA, n.
+• More detailed flags management: *, $, L, ’.
+• Non-existing flags management: %b to print in binary, %r to print a string of nonprintable
+characters, %k to print a date in any ordinary ISO format etc.
+• Management of alter tools for colors, fd or other fun stuff like that :)
+
+Available systems calls
+
+◦ write
+◦ malloc
+◦ free
+◦ exit
+◦ The functions of man 3 stdarg
+
+Notes
+
+%[flag][min width][.precision][length modifier][conversion specifier]
+
+flag:
+
+# - nothing for c, d, i, n, p, s, u
+    o, x, X adds 0, 0x, and 0X respectively to the front of non-zero numbers
+    f, F, e, E, g, and G wil always contain a decimal point
+    g and G will always contain trailing zeros
+
+0 - prepends numeric types with zeros instead of blanks when width option is specified
+
+- - converted value is to be left adjusted on the field boundary and padded on the right with blanks, overrides a 0
+
++ - a sign must be placed before a positive number produced by a signed conversion (a, A, d, e, E, f, F, g, G, or i)
+
+' ' - a blank should be left before a positive number produced by a signed conversion as above, overridden by '+'
+
+' - decimal conversions (d, u, or i) or integral portion of f or F should be grouped and separated by thousands
+    using the non-monetary separator returned by localeconv(3)
+
+
+min width:
+
+specifies a minimum limit on the output
+
+functions as a dynamic value when indicated by an asterisk - for example printf("%*d", 5, 10) -> "   10"
+
+
+precision:
+
+specifies a minimum number of digits in a number
+
+precision is more important than width when allocating digits - so printf("%4.4d", 10) -> "0010" not "  10"
+
+specifies a maximum limit on the chars in a string
+
+undefined for p and c
+
+prefaced by a '.'
+
+taken as 0 if only a '.' is provided
+
+if 0 and the number is 0, print nothing
+
+functions as a dynamic value when indicated by an asterisk - for example printf("%.*s", 3, "abcdef") -> "abc"
+
+
+length modifiers:
+
+        d, i          o, u, x, X           n
+
+hh - signed char     unsigned char    signed char *
+
+h -    short         unsigned short     short *
+
+l -     long         unsigned long       long *
+    turns a, A, e, E, f, F, g, and G into double (ignored, same as behavior without it)
+    turns c into wint_t and s into wchar_t *
+
+ll -  long long    unsigned long long  long long *
+
+j -   intmax_t        uintmax_t        intmax_t *
+
+z -  signed size_t       size_t      signed size_t *
+
+L - turns a, A, e, E, f, F, g, and G into long double
+
+
+conversion specifiers:
+
+s - string of char *
+
+S - string of wchar_t *
+
+p - void * pointer is printed in hexadecimal (same as '%#x' or '%#lx')
+
+d - int converted to signed decimal (same as i)
+
+D - long int converted to signed decimal (same as ld)
+
+i - int converted to signed decimal (same as d)
+
+o - int converted to unsigned octal
+
+O - long int converted to unsigned octal (same as lo)
+
+u - int converted to unsigned decimal
+
+U - long int converted to unsigned decimal (same as lu)
+
+x - unsigned hexadecimal with letters 'abcdef' used
+
+X - unsigned hexadecimal with letters 'ABCDEF' used
+
+c - int converted to unsigned char
+
+C - wint_t converted to wchar_t
+
+% - print a '%' sign
+
+for a, e, f, and g, inf and -inf represent pos and neg infinity
+
+for A, E, F, and G, INF and -INF represent pos and neg infinity
+
+e - double converted to [-]d.ddde+-dd where d before digit is decimal and digits equal precision (6 if not specified)
+    exponent always contains 2 digits and exponent is 00 if value is zero
+
+E - double converted to [-]d.dddE+-dd where d before digit is decimal and digits equal precision (6 if not specified)
+    exponent always contains 2 digits and exponent is 00 if value is zero
+
+f - double converted to [-]ddd.ddd where the digits equal precision (6 if not specified)
+
+F - double converted to [-]ddd.ddd where the digits equal precision (6 if not specified)
+
+g - f or e, whichever is shorter
+
+G - F or E, whichever is shorter
+
+a - like e, but with hexadecimal
+
+A - like E, but with hexadecimal
+
+n - writes number of characters written so far
+
+b - binary
+
+r - string of non-printable characters
+
+k - print date in ISO format (input: 20161127 output: 2016-11-27)
