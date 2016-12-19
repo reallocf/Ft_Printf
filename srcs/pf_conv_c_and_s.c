@@ -39,6 +39,7 @@ void			pf_conv_char(t_flag *flag, int n)
 	flag->output[0] = n;
 	flag->output_len = 1;
 	pf_apply_width(flag);
+	free(flag->output);
 }
 
 void			pf_conv_wchar(t_flag *flag, wchar_t n)
